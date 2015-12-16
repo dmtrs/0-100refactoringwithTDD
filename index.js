@@ -5,9 +5,9 @@ var Geolocation = require('./services/geolocation');
 var geo = require('./middleware/geolocation');
 
 var mmdbreader = require('maxmind-db-reader').openSync('./data/geo.db');
+var service = new Geolocation(mmdbreader.getGeoData.bind(mmdbreader));
 
-app.set('geolocation', new Geolocation(mmdbreader.getGeoData.bind(mmdbreader)));
-app.use(geo);
+app.use(geo(Geolocation.prototype.getCountry.bind(service)));
 
 app.get('/', function (req, res) {
   console.log('GET /');

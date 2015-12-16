@@ -1,21 +1,25 @@
-module.exports = function(req, res, next) {
-	var geo = {
-		ip: '74.125.127.100', // Just for demo convience
-		countryCode: "unknown"
-	};
+module.exports = function(resolve) {
 
-	if(!geo.ip || geo.ip === '127.0.0.1'){
-		req.geo = geo;
-		next();
-	} else {
-		req.app.get('geolocation').getCountry(geo.ip, function(err, countryCode) {
-      if (err) {
-        next(err);
-      } {
-        geo.countryCode = countryCode;
-        req.geo = geo;
-        next();
-      }
-		});
-	}
+  return function(req, res, next) {
+    var ip = req.connection.remoteAddress;
+    var geo = {
+      ip: (ip === '::1') ? '127.0.0.1': ip, // Just for demo convience
+      countryCode: "unknown"
+    };
+
+    if(!geo.ip || geo.ip === '127.0.0.1'){
+      req.geo = geo;
+      next();
+    } else {
+      resolve(geo.ip, function(err, countryCode) {
+        if (err) {
+          next(err);
+        } {
+          geo.countryCode = countryCode;
+          req.geo = geo;
+          next();
+        }
+      });
+    }
+  }
 };
