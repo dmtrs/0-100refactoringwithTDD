@@ -9,11 +9,7 @@ test('middleware should add geo body in req', function(t) {
   };
   var middleware = geolocation(resolve);
 
-  var actual = {
-    connection: {
-      remoteAddress: '8.8.8.8'
-    }
-  };
+  var actual = { connection: { remoteAddress: '8.8.8.8' } };
   var expected = {
     geo: {
       ip: '8.8.8.8',
@@ -36,5 +32,20 @@ test('middleware should return unknown for localhost', function(t) {
 
   middleware(actual, {}, function() {
     t.same(actual.geo, expected.geo);
+  });
+});
+
+test('middleware should call next with error', function(t) {
+  t.plan(1);
+
+  var middleware = geolocation(function(ip, cb) {
+    cb(new Error('Oops'));
+  });
+
+  var req = { connection: { remoteAddress: '8.8.8.8' } };
+  var expected = new Error('Oops');
+
+  middleware(req, {}, function(actual) {
+    t.same(actual, expected);
   });
 });

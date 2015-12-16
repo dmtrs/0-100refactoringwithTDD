@@ -14,7 +14,7 @@ module.exports = function(resolve) {
       resolve(geo.ip, function(err, countryCode) {
         if (err) {
           next(err);
-        } {
+        } else {
           geo.countryCode = countryCode;
           req.geo = geo;
           next();
