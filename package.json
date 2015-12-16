@@ -4,6 +4,7 @@
   "description": "Codebase for a presentation with title \"0 to 100, refactoring with TDD\"",
   "main": "index.js",
   "scripts": {
+    "start": "NODE_ENV=dev node index",
     "test": "NODE_ENV=test istanbul cover ./tests/index.spec.js"
   },
   "keywords": [
