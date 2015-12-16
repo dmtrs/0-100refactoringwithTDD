@@ -1,8 +1,7 @@
-//var mmdbreader = require('maxmind-db-reader');
 var i18n = require('i18n-iso-countries');
 
 var Geolocation = function(fn){
-  this.resolve = fn;// = mmdbreader.openSync('./data/geo.db');
+  this.resolve = fn;
 };
 
 Geolocation.prototype.getCountry = function(ip, cb) {
