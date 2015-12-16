@@ -25,3 +25,16 @@ test('middleware should add geo body in req', function(t) {
     t.same(actual.geo, expected.geo);
   });
 });
+
+test('middleware should return unknown for localhost', function(t) {
+  t.plan(1);
+
+  var middleware = geolocation(function() {});
+
+  var actual = { connection: { remoteAddress: '::1' } };
+  var expected = { geo: { ip: '127.0.0.1', countryCode: 'unknown' } };
+
+  middleware(actual, {}, function() {
+    t.same(actual.geo, expected.geo);
+  });
+});
