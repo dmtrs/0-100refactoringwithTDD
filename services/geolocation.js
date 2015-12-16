@@ -1,5 +1,5 @@
 //var mmdbreader = require('maxmind-db-reader');
-var i18n = require("i18n-iso-countries");
+var i18n = require('i18n-iso-countries');
 
 var Geolocation = function(fn){
   this.resolve = fn;// = mmdbreader.openSync('./data/geo.db');
@@ -11,7 +11,7 @@ Geolocation.prototype.getCountry = function(ip, cb) {
       return cb(err);
     }
     if(typeof result.country.iso_code === 'undefined'){
-      return cb(null, "unkown");
+      return cb(null, 'unknown');
     }
     cb(null, i18n.alpha2ToAlpha3(result.country.iso_code));
 	});
